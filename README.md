@@ -77,9 +77,6 @@ http://<EC2-IP>:3000 → Blue
 
 http://<EC2-IP>:3001 → Green
 
-🔹 Screenshots / Demo
-
-(Add screenshots of Jenkins pipeline stages, NGINX switching, etc.)
 
 🔹 Author
 
