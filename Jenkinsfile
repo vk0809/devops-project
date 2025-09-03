@@ -6,12 +6,8 @@ pipeline {
     TAG      = "build-${env.BUILD_NUMBER}"
   }
   stages {
-    stage('Checkout') {
-      steps { git branch: 'main', url: "${env.REPO_URL}" }
-    }
-    stage('Build Docker Image') {
-      steps { sh 'docker build -t ${IMAGE}:${TAG} ./app' }
-    }
+    stage('Checkout') { steps { git branch: 'main', url: "${env.REPO_URL}" } }
+    stage('Build Docker Image') { steps { sh 'docker build -t ${IMAGE}:${TAG} ./app' } }
     stage('Smoke Test') {
       steps {
         sh '''
@@ -21,13 +17,18 @@ pipeline {
         '''
       }
     }
-    stage('Run (demo)') {
+    stage('Blue-Green Deploy') {
       steps {
         sh '''
-          docker rm -f demo-running || true
-          docker run -d --name demo-running -p 3000:3000 ${IMAGE}:${TAG}
+          chmod +x scripts/deploy.sh scripts/rollback.sh || true
+          sudo scripts/deploy.sh ${IMAGE}:${TAG}
         '''
       }
+    }
+  }
+  post {
+    failure {
+      sh 'sudo scripts/rollback.sh || true'
     }
   }
 }
