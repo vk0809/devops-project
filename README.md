@@ -1,4 +1,4 @@
-Blue-Green Deployment Project 🚀
+*Blue-Green Deployment Project 🚀
 
 This project demonstrates a Blue-Green Deployment strategy using Jenkins, GitHub, Docker, NGINX, and AWS for zero-downtime application releases.
 
